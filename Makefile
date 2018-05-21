@@ -17,7 +17,7 @@ runserver: venv migrate
 
 test: venv
 	venv/bin/python manage.py test
-	-venv/bin/pylint --load-plugins pylint_django iot_site *.py manage.py setup.py
+	-venv/bin/pylint --load-plugins pylint_django iot_site *.py
 
 clean:
 	rm -rf venv dist build *.egg-info .coverage
