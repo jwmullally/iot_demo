@@ -1,0 +1,23 @@
+{% extends 'bootstrap4/bootstrap4.html' %}
+{% block bootstrap4_title %}{% block title %}{% endblock %}{% endblock %}
+
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block bootstrap4_extra_head %}
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+    {# remove when pushed: https://github.com/zostera/django-bootstrap4/pull/71 #}
+    {% bootstrap_javascript jquery='slim' %}
+{% endblock %}
+
+{% block bootstrap4_content %}
+
+    {% include "iot_app/navbar.html" %}
+
+    <div class="container">
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+
+        {% block content %}(no content){% endblock %}
+    </div>
+
+{% endblock %}

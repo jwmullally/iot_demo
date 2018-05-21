@@ -1,1 +1,13 @@
-Welcome to IoT Site
+{% extends 'iot_app/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to IoT Site</h1>
+        <p class="lead">Example text 123</p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+{% endblock %}
