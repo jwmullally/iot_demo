@@ -9,5 +9,28 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'iot_app:index' %}">Home</a>
       </li>
+    </ul>
+    {% if user.is_authenticated %}
+      <span class="navbar-text">
+        Logged in as: {{ user.username }}
+      </span>
+    {% endif %}
+    <ul class="navbar-nav">
+      {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'iot_app:profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'iot_app:logout' %}">Logout</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'iot_app:register' %}">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'iot_app:login' %}">Login</a>
+        </li>
+      {% endif %}
+    </ul>
   </div>
 </nav>

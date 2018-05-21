@@ -1,0 +1,13 @@
+{% extends 'iot_app/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+  </form>
+{% endblock %}
