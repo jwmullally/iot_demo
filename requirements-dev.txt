@@ -1,0 +1,4 @@
+nose
+pylint
+pylint-django
+ipython
