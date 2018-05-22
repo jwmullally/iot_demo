@@ -1,0 +1,13 @@
+{% extends 'iot_app/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Device for {{ user.username }}{% endblock %}
+
+{% block content %}
+  <ul>
+    <li>{{ userdevice.device.serial }}</li>
+    <li>{{ userdevice.device.model.name }}</li>
+    <li>{{ userdevice.date }}</li>
+  </ul>
+{% endblock %}
