@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'iot_app',
+    'iot_accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,10 +126,9 @@ STATIC_URL = '/static/'
 # Built-in User Model
 
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda x: '/profile',
+    'auth.user': lambda x: '/accounts/profile',
 }
 
-LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/'
 
 
