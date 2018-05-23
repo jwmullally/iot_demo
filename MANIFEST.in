@@ -1,1 +1,2 @@
 recursive-include iot_app/templates *
+recursive-include iot_accounts/templates *
