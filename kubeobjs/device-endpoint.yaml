@@ -1,0 +1,94 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: device-endpoint
+    labels:
+      app: device-endpoint
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: device-endpoint
+    labels:
+      app: device-endpoint
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: 'device-endpoint:latest'
+    source:
+      type: Binary
+    strategy:
+      type: Docker
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: alpine:latest
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: device-endpoint
+    labels:
+      app: device-endpoint
+  spec:
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - device-endpoint
+          from:
+            kind: ImageStreamTag
+            name: device-endpoint:latest
+    replicas: 1
+    selector:
+      app: device-endpoint
+      deploymentconfig: device-endpoint
+    template:
+      metadata:
+        labels:
+          app: device-endpoint
+          deploymentconfig: device-endpoint
+        name: device-endpoint
+      spec:
+        containers:
+          - name: device-endpoint
+            image: ' '
+            ports:
+              - containerPort: 8080
+                protocol: TCP
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8080
+                scheme: HTTP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: device-endpoint
+    labels:
+      app: device-endpoint
+  spec:
+    ports:
+      - name: 8080-tcp
+        protocol: TCP
+        port: 8080
+        targetPort: 8080
+    selector:
+      app: device-endpoint
+      deploymentconfig: device-endpoint
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: device-endpoint
+    name: device-endpoint
+  spec:
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: device-endpoint
+kind: List
