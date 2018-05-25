@@ -1,30 +1,39 @@
 import asyncio
-from pprint import pprint
+from pprint import pprint, pformat
+
+from aiohttp import web, ClientSession
+
+from .metrics import DeviceSensorSample
+
+PROMETHEUS_URL = 'http://pushgateway:9091'
+routes = web.RouteTableDef()
 
 
-from aiohttp import web
+async def send_prometheus_metrics(sample):
+    # todo: persist client across multiple calls
+    url = '{}/metrics/job/iot_device_{}'.format(PROMETHEUS_URL, sample.serial)
+    data = bytes(sample.to_prometheus_pushmetrics(), 'utf8')
+    print(url)
+    print(data)
+    async with ClientSession(raise_for_status=True) as session:
+        await session.post(url, data=data)
 
 
-async def handler(request):
-    pprint(vars(request))
-    return web.Response(text="OK")
+@routes.get('/')
+async def handle_get(request):
+    return web.Response()
 
 
-async def main(loop):
-    server = web.Server(handler)
-    await loop.create_server(server, "0.0.0.0", 8080)
-    print("======= Serving on http://0.0.0.0:8080/ ======")
-
-    # pause here for very long time by serving HTTP requests and
-    # waiting for keyboard interruption
-    await asyncio.sleep(100*3600)
+@routes.post('/')
+async def handle_post(request):
+    data = await request.json()
+    pprint(data)
+    sample = DeviceSensorSample.from_dict(data)
+    await send_prometheus_metrics(sample)
+    return web.json_response({'result': 'ok'})
 
 
 def run():
-    loop = asyncio.get_event_loop()
-
-    try:
-        loop.run_until_complete(main(loop))
-    except KeyboardInterrupt:
-        pass
-    loop.close()
+    app = web.Application()
+    app.router.add_routes(routes)
+    web.run_app(app, host='0.0.0.0', port=8080)
