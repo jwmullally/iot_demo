@@ -18,4 +18,4 @@ class DeviceSensorSample(object):
         lines = []
         for k,v in self.sensors.items():
             lines.append('iot_device{{serial="{}", sensor="{}"}} {}'.format(self.serial, k, v))
-        return '\n'.join(lines)
+        return '\n'.join(lines)+'\n'

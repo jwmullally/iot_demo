@@ -5,18 +5,23 @@ from aiohttp import web, ClientSession
 
 from .metrics import DeviceSensorSample
 
-PROMETHEUS_URL = 'http://pushgateway:9091'
+#PROMETHEUS_URL = 'http://pushgateway:9091'
+PROMETHEUS_URL = 'http://pushgateway-myproject.cluster.test'
 routes = web.RouteTableDef()
 
 
 async def send_prometheus_metrics(sample):
     # todo: persist client across multiple calls
-    url = '{}/metrics/job/iot_device_{}'.format(PROMETHEUS_URL, sample.serial)
-    data = bytes(sample.to_prometheus_pushmetrics(), 'utf8')
-    print(url)
-    print(data)
-    async with ClientSession(raise_for_status=True) as session:
-        await session.post(url, data=data)
+    async with ClientSession() as session:
+        print('== Metrics: Posting ==')
+        url = '{}/metrics/job/iot_device_{}'.format(PROMETHEUS_URL, sample.serial)
+        data = bytes(sample.to_prometheus_pushmetrics(), 'utf8')
+        print(url)
+        print(data.decode(), end='')
+        async with session.post(url, data=data) as response:
+            print('== Metrics: Response ==')
+            print(response.status)
+            print(await response.text())
 
 
 @routes.get('/')
@@ -26,11 +31,15 @@ async def handle_get(request):
 
 @routes.post('/')
 async def handle_post(request):
+    print('== Device: Request ==')
     data = await request.json()
     pprint(data)
     sample = DeviceSensorSample.from_dict(data)
     await send_prometheus_metrics(sample)
-    return web.json_response({'result': 'ok'})
+    print('== Device: Responding ==')
+    response = {'result': 'ok'}
+    print(response)
+    return web.json_response(response)
 
 
 def run():

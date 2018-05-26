@@ -1,0 +1,59 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: test-device
+    labels:
+      app: test-device
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: test-device
+    labels:
+      app: test-device
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: 'test-device:latest'
+    source:
+      type: Binary
+    strategy:
+      type: Docker
+      dockerStrategy:
+        from:
+          kind: DockerImage
+          name: alpine:latest
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: test-device
+    labels:
+      app: test-device
+  spec:
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - test-device
+          from:
+            kind: ImageStreamTag
+            name: test-device:latest
+    replicas: 1
+    selector:
+      app: test-device
+      deploymentconfig: test-device
+    template:
+      metadata:
+        labels:
+          app: test-device
+          deploymentconfig: test-device
+        name: test-device
+      spec:
+        containers:
+          - name: test-device
+            image: ' '
+kind: List
