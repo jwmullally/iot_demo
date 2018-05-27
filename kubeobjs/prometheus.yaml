@@ -66,8 +66,8 @@ items:
     name: prometheus
   spec:
     ports:
-    - name: 9090-tcp
-      port: 9090
+    - name: 80-tcp
+      port: 80
       protocol: TCP
       targetPort: 9090
     selector:
@@ -81,7 +81,7 @@ items:
     name: prometheus
   spec:
     port:
-      targetPort: 9090-tcp
+      targetPort: 80-tcp
     to:
       kind: Service
       name: prometheus
@@ -93,8 +93,8 @@ items:
     name: pushgateway
   spec:
     ports:
-    - name: 9091-tcp
-      port: 9091
+    - name: 80-tcp
+      port: 80
       protocol: TCP
       targetPort: 9091
     selector:
@@ -108,7 +108,7 @@ items:
     name: pushgateway
   spec:
     port:
-      targetPort: 9091-tcp
+      targetPort: 80-tcp
     to:
       kind: Service
       name: pushgateway

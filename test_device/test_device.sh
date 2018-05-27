@@ -1,7 +1,7 @@
 #!/bin/sh
 set -x
 
-ENDPOINT=${1:-device-endpoint:8080}
+ENDPOINT=${1:-http://device-endpoint}
 
 rand() {
     NEW_RAND="$(awk "BEGIN{ srand($(cat /tmp/random | cut -c3-)); print rand() }")"
@@ -25,7 +25,7 @@ send_data() {
     curl \
         -sS \
         --header "Content-Type: application/json" \
-        --request POST http://$ENDPOINT/ \
+        --request POST "$ENDPOINT" \
         --data "$(gen_data)"
     echo
 }

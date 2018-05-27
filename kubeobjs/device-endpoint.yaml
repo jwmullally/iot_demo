@@ -72,9 +72,9 @@ items:
       app: device-endpoint
   spec:
     ports:
-      - name: 8080-tcp
+      - name: 80-tcp
         protocol: TCP
-        port: 8080
+        port: 80
         targetPort: 8080
     selector:
       app: device-endpoint
@@ -87,7 +87,7 @@ items:
     name: device-endpoint
   spec:
     port:
-      targetPort: 8080-tcp
+      targetPort: 80-tcp
     to:
       kind: Service
       name: device-endpoint

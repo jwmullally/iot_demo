@@ -5,7 +5,7 @@ from aiohttp import web, ClientSession
 
 from .metrics import DeviceSensorSample
 
-PROMETHEUS_URL = 'http://pushgateway:9091'
+PROMETHEUS_URL = 'http://pushgateway'
 INFLUXDB_URL = 'http://influxdb'
 
 routes = web.RouteTableDef()
