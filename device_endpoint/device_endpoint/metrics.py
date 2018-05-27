@@ -19,3 +19,9 @@ class DeviceSensorSample(object):
         for k,v in self.sensors.items():
             lines.append('iot_device{{serial="{}", sensor="{}"}} {}'.format(self.serial, k, v))
         return '\n'.join(lines)+'\n'
+
+    def to_influxdb_lp(self):
+        lines = []
+        for k,v in self.sensors.items():
+            lines.append('sensor,serial={},sensor={} value={}'.format(self.serial, k, v))
+        return '\n'.join(lines)+'\n'
