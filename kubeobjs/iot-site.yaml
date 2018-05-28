@@ -59,11 +59,11 @@ items:
             ports:
               - containerPort: 8000
                 protocol: TCP
-#            livenessProbe:
-#              httpGet:
-#                path: /
-#                port: 8000
-#                scheme: HTTP
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8000
+                scheme: HTTP
 - apiVersion: v1
   kind: Service
   metadata:
