@@ -29,3 +29,11 @@ Seperating this from the site allows the site to be upgraded independently witho
 This simulates multiple devices sending metrics to the endpoint.
 
 * aiohttp client
+
+
+# Reference
+
+* [Django Tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial01/)
+* [Django REST Framework Quickstart](http://www.django-rest-framework.org/tutorial/quickstart/)
+* [Django REST Framework Tutorial](http://www.django-rest-framework.org/tutorial/1-serialization/)
+* [Python Packaging Tutorial](https://python-packaging.readthedocs.io/)
