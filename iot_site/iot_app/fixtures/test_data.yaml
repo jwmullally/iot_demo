@@ -1,0 +1,29 @@
+- model: auth.user
+  pk: 1
+  fields:
+    username: admin
+    #password: "admin"
+    password: "pbkdf2_sha256$100000$ADp2uo7oNsFW$r0+WPTOOee1jSdUp/7sH/wMEqbDwQ6PzDZTYFBk1Zuc="
+    is_superuser: true
+    is_staff: true
+    is_active: true
+- model: auth.user
+  pk: 2
+  fields:
+    username: testuser
+    #password: "pass1234"
+    password: "pbkdf2_sha256$100000$sEeCX4QdYBmJ$eAimYk6DkLvlmghPxLYny9D2YiEXCYAcs/2nw33X9Go="
+    is_active: true
+- model: iot_app.devicemodel
+  pk: 1
+  fields: 
+    name: "Model-A"
+- model: iot_app.device
+  pk: 1234
+  fields:
+    model: 1
+- model: iot_app.userdevice
+  pk: 1234
+  fields:
+    user:
+    - testuser
