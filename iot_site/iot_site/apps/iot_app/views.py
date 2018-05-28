@@ -11,7 +11,7 @@ class IndexView(TemplateView):
     template_name = 'iot_app/index.html'
 
 
-class UserDeviceListView(LoginRequiredMixin, ListView):
+class UserDeviceListView(ListView):
     model = models.UserDevice
     ordering = ['-date']
 
@@ -19,7 +19,7 @@ class UserDeviceListView(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(user=self.request.user)
 
 
-class UserDeviceView(LoginRequiredMixin, DetailView):
+class UserDeviceView(DetailView):
     model = models.UserDevice
 
     def get_queryset(self):

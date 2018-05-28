@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'iot_site.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'iot_site.urls'
@@ -140,3 +141,12 @@ BOOTSTRAP4 = {
     'javascript_in_head': True,
     'include_jquery': 'slim',
 }
+
+
+# LoginRequiredMiddleware
+
+LOGIN_REQUIRED_EXEMPT_URLS = [
+    '^$',
+    '^accounts/.*',
+    '^api/api-auth/.*',
+]
