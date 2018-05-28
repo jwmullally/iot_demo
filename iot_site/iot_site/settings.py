@@ -147,6 +147,7 @@ BOOTSTRAP4 = {
 
 LOGIN_REQUIRED_EXEMPT_URLS = [
     '^$',
+    '^admin/.*',
     '^accounts/.*',
     '^api/api-auth/.*',
 ]
