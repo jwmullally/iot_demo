@@ -31,8 +31,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'iot_app',
-    'iot_accounts',
+    'iot_site.apps.iot_app',
+    'iot_site.apps.iot_accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
