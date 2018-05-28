@@ -27,13 +27,10 @@ items:
           - containerPort: 8086
             protocol: TCP
           volumeMounts:
-#          - mountPath: /etc/influxdb
-#            name: influxdb-config
           - mountPath: /var/lib/influxdb
             name: influxdb-data
         - image: chronograf:alpine
           name: chronograf
-#          command: ["chronograf"]
           args: ["--influxdb-url=http://localhost:8086"]
           ports:
           - containerPort: 8888
@@ -42,9 +39,6 @@ items:
           - mountPath: /var/lib/chronograf
             name: chronograf-data
         volumes:
-#        - configMap:
-#            name: influxdb
-#          name: influxdb-config
         - emptyDir: {}
           name: influxdb-data
         - emptyDir: {}
