@@ -1,7 +1,7 @@
+import re
+
 from django.contrib.auth.views import redirect_to_login
-from django.http import HttpResponseRedirect
 from django.conf import settings
-from re import compile
 
 
 class LoginRequiredMiddleware:
@@ -18,9 +18,9 @@ class LoginRequiredMiddleware:
     # Ported to Django 2.0: https://docs.djangoproject.com/en/2.0/topics/http/middleware/
     def __init__(self, get_response):
         self.get_response = get_response
-        self.exempt_urls = [compile(settings.LOGIN_URL.lstrip('/'))]
+        self.exempt_urls = [re.compile(settings.LOGIN_URL.lstrip('/'))]
         if hasattr(settings, 'LOGIN_REQUIRED_EXEMPT_URLS'):
-            self.exempt_urls += [compile(expr) for expr in settings.LOGIN_REQUIRED_EXEMPT_URLS]
+            self.exempt_urls += [re.compile(expr) for expr in settings.LOGIN_REQUIRED_EXEMPT_URLS]
 
     def __call__(self, request):
         if not hasattr(request, 'user'):
