@@ -15,4 +15,7 @@ setup(
     include_package_data=True,
     license='Public Domain',
     description='Demo IoT website',
+    scripts=[
+        'bin/run-iot_site.sh'
+        ],
 )
