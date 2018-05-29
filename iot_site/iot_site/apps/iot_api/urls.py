@@ -10,5 +10,6 @@ router.register('userdevice', views.UserDeviceViewSet, base_name="userdevice")
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('userdevice/<pk>/metrics', views.UserDeviceMetricsDetail.as_view(), name='userdevicemetrics-detail'),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

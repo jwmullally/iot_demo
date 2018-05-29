@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
-from rest_framework import filters, viewsets
+from django.http import Http404
+from influxdb import InfluxDBClient
+from rest_framework import filters, views, viewsets
+from rest_framework.response import Response
 
 from . import serializers
 from ..iot_app import models
@@ -37,3 +40,24 @@ class UserDeviceViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.UserDevice.objects.all()
     serializer_class = serializers.UserDeviceSerializer
     filter_backends = (IsOwnerFilterBackend,)
+
+
+class UserDeviceMetricsDetail(views.APIView):
+    """
+    API endpoint to fetch UserDevice metrics
+    """
+
+    QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m AND "serial"=\'{serial}\' GROUP BY "serial", "sensor"'
+
+    def get_object(self, pk):
+        try:
+            return models.UserDevice.objects.get(pk=pk)
+        except models.UserDevice.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        userdevice = self.get_object(pk)
+        client = InfluxDBClient('influxdb', port=80, database='iot_metrics')
+        query = self.QUERY_FORMAT.format(serial=userdevice.pk)
+        data = client.query(query)
+        return Response(data.raw['series'])
