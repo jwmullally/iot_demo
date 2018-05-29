@@ -2,5 +2,4 @@ django
 django-bootstrap4
 djangorestframework
 pyyaml
-gunicorn
 influxdb

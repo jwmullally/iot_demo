@@ -60,4 +60,4 @@ class UserDeviceMetricsDetail(views.APIView):
         client = InfluxDBClient('influxdb', port=80, database='iot_metrics')
         query = self.QUERY_FORMAT.format(serial=userdevice.pk)
         data = client.query(query)
-        return Response(data.raw['series'])
+        return Response(data.raw)

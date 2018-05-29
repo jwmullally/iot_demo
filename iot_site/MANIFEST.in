@@ -1,3 +1,5 @@
 recursive-include iot_site/apps/iot_app/templates *
 recursive-include iot_site/apps/iot_app/fixtures *
 recursive-include iot_site/apps/iot_accounts/templates *
+recursive-include iot_site/apps/iot_charts/templates *
+recursive-include iot_site/apps/iot_charts/static *

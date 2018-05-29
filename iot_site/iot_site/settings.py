@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'iot_site.apps.iot_app',
     'iot_site.apps.iot_accounts',
+    'iot_site.apps.iot_charts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'bootstrap4',
-    'gunicorn',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +139,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 BOOTSTRAP4 = {
     'javascript_in_head': True,
-    'include_jquery': 'slim',
+    'include_jquery': 'full',
 }
 
 

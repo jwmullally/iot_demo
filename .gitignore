@@ -5,6 +5,7 @@ __pycache__/
 dist
 *.egg-info
 notes
+tmp
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
