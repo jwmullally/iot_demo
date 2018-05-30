@@ -1,5 +1,7 @@
 {% extends 'iot_app/base.html' %}
 
+{% load charts %}
+
 {% block title %}Device for {{ user.username }}{% endblock %}
 
 {% block content %}
@@ -9,6 +11,5 @@
     <li>{{ userdevice.date }}</li>
   </ul>
 
-  {% url 'userdevicemetrics-detail' userdevice.device_id as data_url %}
-  {% include "iot_charts/line_chart.html" with chart_id=userdevice.pk data_url=data_url %}
+  {% chart 'line' userdevice.pk 'userdevicemetrics-detail' userdevice.pk %}
 {% endblock %}

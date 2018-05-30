@@ -1,5 +1,5 @@
 <div class="card">
-    <canvas id="canvas-{{ canvas_id }}"></canvas>
+    <canvas id="canvas-{{ chart_id }}"></canvas>
 	<script>
         $.ajax({
             url: "{{ data_url }}",
@@ -32,7 +32,7 @@
                         }
                     }
                 };
-                var ctx = document.getElementById('canvas-{{ canvas_id }}').getContext('2d');
+                var ctx = document.getElementById('canvas-{{ chart_id }}').getContext('2d');
                 var chart = new Chart(ctx, config);
             }
         });
