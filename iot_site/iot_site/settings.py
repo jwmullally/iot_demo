@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'iot_site.apps.iot_api',
     'iot_site.apps.iot_app',
     'iot_site.apps.iot_accounts',
     'iot_site.apps.iot_charts',
@@ -139,7 +140,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 BOOTSTRAP4 = {
     'javascript_in_head': True,
-    'include_jquery': 'full',
 }
 
 
