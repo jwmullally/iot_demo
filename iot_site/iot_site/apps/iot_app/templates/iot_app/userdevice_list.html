@@ -3,22 +3,11 @@
 {% block title %}Devices for {{ user.username }}{% endblock %}
 
 {% block content %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Serial #</th>
-        <th scope="col">Model</th>
-        <th scope="col">Date Registered</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for userdevice in userdevice_list %}
-        <tr>
-          <th scope="row"><a href="{% url 'iot_app:userdevice' userdevice.device_id %}">{{ userdevice.device.serial }}</a></th>
-          <td>{{ userdevice.device.model.name }}</td>
-          <td>{{ userdevice.date }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="row">
+  {% for userdevice in userdevice_list %}
+    <div class="col-12">
+      {% include "iot_app/card_userdevice.html" with userdevice=userdevice %}
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}

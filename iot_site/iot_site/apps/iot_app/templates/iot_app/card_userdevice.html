@@ -1,0 +1,13 @@
+{% load charts %}
+
+<div class="card">
+  <h5 class="card-header">
+    {{ userdevice.device.model.name }} - #{{ userdevice.device.serial }}
+    <div class="float-right">
+      <a class="btn btn-primary btn-sm" href={% url 'iot_app:userdevice' userdevice.pk %} role="button">Modify</a>
+    </div>
+  </h5>
+  <div class="card-body">
+    {% chart 'line' userdevice.pk 'userdevicemetrics-detail' userdevice.pk %}
+  </div>
+</div>
