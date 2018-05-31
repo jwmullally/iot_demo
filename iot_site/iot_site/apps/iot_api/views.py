@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from influxdb import InfluxDBClient
@@ -55,7 +56,12 @@ class UserDeviceMetricsDetail(views.APIView):
             userdevice = queryset.get(pk=pk)
         except models.UserDevice.DoesNotExist:
             raise Http404
-        client = InfluxDBClient('influxdb', port=80, database='iot_metrics')
+        client = InfluxDBClient(
+                host=settings.INFLUXDB['HOST'],
+                port=settings.INFLUXDB['PORT'],
+                username=settings.INFLUXDB['USER'],
+                password=settings.INFLUXDB['PASSWORD'],
+                database=settings.INFLUXDB['DATABASE'])
         query = self.QUERY_FORMAT.format(serial=userdevice.pk)
         data = client.query(query)
         return Response(data.raw)

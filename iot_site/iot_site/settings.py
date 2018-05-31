@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -81,10 +83,7 @@ WSGI_APPLICATION = 'iot_site.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3'),
 }
 
 
@@ -151,3 +150,14 @@ LOGIN_REQUIRED_EXEMPT_URLS = [
     '^accounts/.*',
     '^api/api-auth/.*',
 ]
+
+
+# InfluxDB
+
+INFLUXDB = {
+    'HOST': os.environ.get('INFLUXDB_HOST', 'influxdb'),
+    'PORT': os.environ.get('INFLUXDB_PORT', 80),
+    'USER': os.environ.get('INFLUXDB_USER', None),
+    'PASSWORD': os.environ.get('INFLUXDB_PASSWORD', None),
+    'DATABASE': os.environ.get('INFLUXDB_DATABASE', 'iot_metrics'),
+}
