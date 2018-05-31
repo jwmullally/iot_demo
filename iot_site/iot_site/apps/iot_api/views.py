@@ -49,14 +49,12 @@ class UserDeviceMetricsDetail(views.APIView):
 
     QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m AND "serial"=\'{serial}\' GROUP BY "serial", "sensor"'
 
-    def get_object(self, pk):
+    def get(self, request, pk, format=None):
+        queryset = models.UserDevice.objects.filter(user=self.request.user)
         try:
-            return models.UserDevice.objects.get(pk=pk)
+            userdevice = queryset.get(pk=pk)
         except models.UserDevice.DoesNotExist:
             raise Http404
-
-    def get(self, request, pk, format=None):
-        userdevice = self.get_object(pk)
         client = InfluxDBClient('influxdb', port=80, database='iot_metrics')
         query = self.QUERY_FORMAT.format(serial=userdevice.pk)
         data = client.query(query)
