@@ -16,7 +16,7 @@ gen_data() {
         "a": $(rand),
         "b": $(rand)
     },
-    "serial": "1234"
+    "serial": "$1"
 }
 EOF
 }
@@ -26,11 +26,13 @@ send_data() {
         -sS \
         --header "Content-Type: application/json" \
         --request POST "$ENDPOINT" \
-        --data "$(gen_data)"
+        --data "$(gen_data "$1")"
     echo
 }
 
 while [ 1 ]; do
-    send_data
+    for serial in 1001 1002 1003 2001 2002 2003; do
+        send_data "$serial"
+    done
     sleep 5
 done
