@@ -12,6 +12,13 @@ class DeviceModel(models.Model):
         return self.name
 
 
+class Sensor(models.Model):
+    tag = models.CharField(max_length=8, primary_key=True)
+
+    def __str__(self):
+        return self.tag
+
+
 class Device(models.Model):
     serial = models.IntegerField(primary_key=True, unique=True)
     model = models.ForeignKey(DeviceModel, on_delete=models.CASCADE)

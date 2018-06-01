@@ -11,6 +11,12 @@ class DeviceModelSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name')
 
 
+class SensorSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Sensor
+        fields = ('url', 'tag')
+
+
 class DeviceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Device

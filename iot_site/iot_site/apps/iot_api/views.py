@@ -23,6 +23,14 @@ class DeviceModelViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.DeviceModelSerializer
 
 
+class SensorViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows Sensors to be viewed
+    """
+    queryset = models.Sensor.objects.all()
+    serializer_class = serializers.SensorSerializer
+
+
 class DeviceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows Devices to be viewed
