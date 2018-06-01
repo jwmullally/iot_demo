@@ -51,25 +51,48 @@ class UserDeviceViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (IsOwnerFilterBackend,)
 
 
-class UserDeviceMetricsDetail(views.APIView):
+class QueryView(views.APIView):
     """
     API endpoint to fetch UserDevice metrics
     """
 
-    QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m AND "serial"=\'{serial}\' GROUP BY "serial", "sensor"'
+    QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m {serial_query} {sensor_query} GROUP BY "serial", "sensor"'
 
-    def get(self, request, pk, format=None):
+    def __gen_query(self, userdevices, sensors):
+        # Proof of concept, replace with a query builder or token+AST string builder
+        serial_query = 'AND (' + ' OR '.join('"serial"=\'{}\''.format(userdevice.pk) for userdevice in userdevices) + ')'
+        if sensors:
+            sensor_query = 'AND (' + ' OR '.join('"sensor"=\'{}\''.format(sensor.tag) for sensor in sensors) + ')'
+        else:
+            sensor_query = ''
+        query = self.QUERY_FORMAT.format(serial_query=serial_query, sensor_query=sensor_query)
+        return query
+
+    def get(self, request, format=None):
+        """
+        ?device: Serial of the device(s) to query. Required
+        ?sensor: Sensor(s) to query. If unspecified, all sensors will be returned.
+        """
+        userdevice_pks = tuple(request.query_params.getlist('device'))
+        if not userdevice_pks:
+            return Response({})
         queryset = models.UserDevice.objects.filter(user=self.request.user)
-        try:
-            userdevice = queryset.get(pk=pk)
-        except models.UserDevice.DoesNotExist:
+        userdevices = queryset.filter(pk__in=userdevice_pks)
+        if not userdevices:
             raise Http404
+        sensor_pks = tuple(request.query_params.getlist('sensor', []))
+        if sensor_pks:
+            sensors = models.Sensor.objects.filter(pk__in=sensor_pks)
+            if not sensors:
+                raise Http404
+        else:
+            sensors = models.Sensor.objects.all()
         client = InfluxDBClient(
                 host=settings.INFLUXDB['HOST'],
                 port=settings.INFLUXDB['PORT'],
                 username=settings.INFLUXDB['USER'],
                 password=settings.INFLUXDB['PASSWORD'],
                 database=settings.INFLUXDB['DATABASE'])
-        query = self.QUERY_FORMAT.format(serial=userdevice.pk)
+        query = self.__gen_query(userdevices, sensors)
         data = client.query(query)
         return Response(data.raw)

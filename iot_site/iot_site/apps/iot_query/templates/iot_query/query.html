@@ -1,0 +1,14 @@
+{% extends 'iot_app/base.html' %}
+
+{% load bootstrap4 %}
+{% load charts %}
+
+{% block content %}
+  {% chart 'line' 'query-results' query_params %}
+  <form method="get">
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

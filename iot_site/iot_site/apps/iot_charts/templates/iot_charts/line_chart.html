@@ -1,7 +1,9 @@
     <canvas id="canvas-{{ chart_id }}"></canvas>
 	<script>
         $.ajax({
+            {% autoescape off %}
             url: "{{ data_url }}",
+            {% endautoescape %}
             dataType: 'json',
             success: function (data) {
                 chartjs_data = influx_to_chartjs(data);

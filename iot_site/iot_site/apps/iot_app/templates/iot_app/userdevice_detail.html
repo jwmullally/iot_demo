@@ -11,5 +11,5 @@
     <li>{{ userdevice.date }}</li>
   </ul>
 
-  {% chart 'line' userdevice.pk 'userdevicemetrics-detail' userdevice.pk %}
+  {% include "iot_app/card_userdevice.html" with userdevice=userdevice %}
 {% endblock %}

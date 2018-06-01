@@ -5,11 +5,12 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('devicemodel', views.DeviceModelViewSet, base_name="devicemodel")
+router.register('sensor', views.SensorViewSet, base_name="sensor")
 router.register('device', views.DeviceViewSet, base_name="device")
 router.register('userdevice', views.UserDeviceViewSet, base_name="userdevice")
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('userdevice/<pk>/metrics', views.UserDeviceMetricsDetail.as_view(), name='userdevicemetrics-detail'),
+    path('query', views.QueryView.as_view(), name='query'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('iot_site.apps.iot_accounts.urls')),
     path('api/', include('iot_site.apps.iot_api.urls')),
+    path('query', include('iot_site.apps.iot_query.urls')),
     path('', include('iot_site.apps.iot_app.urls')),
 ]

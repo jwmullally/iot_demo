@@ -1,6 +1,7 @@
 {% load charts %}
+{% load utils %}
 
-<div class="card">
+<div class="card mb-3">
   <h5 class="card-header">
     {{ userdevice.device.model.name }} - #{{ userdevice.device.serial }}
     <div class="float-right">
@@ -8,6 +9,8 @@
     </div>
   </h5>
   <div class="card-body">
-    {% chart 'line' userdevice.pk 'userdevicemetrics-detail' userdevice.pk %}
+    {% with "device="|addstr:userdevice.pk as query_params %}
+      {% chart 'line' userdevice.pk query_params %}
+    {% endwith %}
   </div>
 </div>

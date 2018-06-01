@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'iot_site.apps.iot_app',
     'iot_site.apps.iot_accounts',
     'iot_site.apps.iot_charts',
+    'iot_site.apps.iot_query',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -3,6 +3,9 @@
  * @param data - InfluxDB Query Results
  */
 function influx_to_chartjs(data) {
+    if (! data.hasOwnProperty('series')) {
+        return []
+    }
     var out = []
     for (let i = 0; i < data.series.length; i++) {
         let series = data.series[i]
