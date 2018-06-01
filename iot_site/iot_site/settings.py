@@ -155,8 +155,8 @@ LOGIN_REQUIRED_EXEMPT_URLS = [
 # InfluxDB
 
 INFLUXDB = {
-    'HOST': os.environ.get('INFLUXDB_HOST', 'influxdb'),
-    'PORT': os.environ.get('INFLUXDB_PORT', 80),
+    'HOST': os.environ.get('INFLUXDB_SERVICE_HOST', 'influxdb'),
+    'PORT': os.environ.get('INFLUXDB_SERVICE_PORT', 8086),
     'USER': os.environ.get('INFLUXDB_USER', None),
     'PASSWORD': os.environ.get('INFLUXDB_PASSWORD', None),
     'DATABASE': os.environ.get('INFLUXDB_DATABASE', 'iot_metrics'),
