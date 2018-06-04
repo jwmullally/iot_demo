@@ -23,15 +23,14 @@ class Device(models.Model):
     serial = models.IntegerField(primary_key=True, unique=True)
     model = models.ForeignKey(DeviceModel, on_delete=models.CASCADE)
     date = models.DateField(default=date.today)
+    user = models.ForeignKey(User, db_index=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return '{} #{}'.format(self.model, self.serial)
 
 
-class UserDevice(models.Model):
+class DevicePrefs(models.Model):
     device = models.OneToOneField(Device, primary_key=True, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(default=date.today)
 
     def __str__(self):
-        return "{}'s - {}".format(self.user, self.device)
+        return "{} user preferences".format(self.device)

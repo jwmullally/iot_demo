@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="row">
-  {% for userdevice in userdevice_list %}
+  {% for device in device_list %}
     <div class="col-12">
-      {% include "iot_app/card_userdevice.html" with userdevice=userdevice %}
+      {% include "iot_app/card_device.html" with device=device %}
     </div>
   {% endfor %}
 </div>

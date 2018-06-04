@@ -1,13 +1,13 @@
 from django import forms
 from django.db import models
 
-from ..iot_app.models import UserDevice, Sensor
+from ..iot_app.models import Device, Sensor
 
 # Create your models here.
 
 class QueryForm(forms.Form):
     device = forms.ModelMultipleChoiceField(
-            queryset = UserDevice.objects.none(),
+            queryset = Device.objects.none(),
             widget = forms.CheckboxSelectMultiple,
             )
     sensor = forms.ModelMultipleChoiceField(
@@ -17,4 +17,4 @@ class QueryForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['device'].queryset = UserDevice.objects.filter(user=user)
+        self.fields['device'].queryset = Device.objects.filter(user=user)

@@ -15,7 +15,9 @@ def chart(chart_type, chart_id, query_params):
 
     Sample usage::
 
-        {% chart 'line' userdevice.pk 'userdevicemetrics-detail' userdevice.pk %}
+      {% with "device="|addstr:device.pk as query_params %}
+        {% chart 'line' device.pk query_params %}
+      {% endwith %}
 
     """
     data_url = '{}?{}'.format(reverse('query'), query_params)

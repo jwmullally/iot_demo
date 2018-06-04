@@ -41,53 +41,53 @@
   pk: 1001
   fields:
     model: 1
+    user:
+    - testuser
 - model: iot_app.device
   pk: 1002
   fields:
     model: 1
+    user:
+    - testuser
 - model: iot_app.device
   pk: 1003
   fields:
     model: 2
+    user:
+    - testuser
 - model: iot_app.device
   pk: 2001
   fields:
     model: 1
+    user:
+    - testuser2
 - model: iot_app.device
   pk: 2002
   fields:
     model: 2
+    user:
+    - testuser2
 - model: iot_app.device
   pk: 2003
   fields:
     model: 2
-- model: iot_app.userdevice
+    user:
+    - testuser2
+- model: iot_app.deviceprefs
   pk: 1001
-  fields:
-    user:
-    - testuser
-- model: iot_app.userdevice
+  fields: {}
+- model: iot_app.deviceprefs
   pk: 1002
-  fields:
-    user:
-    - testuser
-- model: iot_app.userdevice
+  fields: {}
+- model: iot_app.deviceprefs
   pk: 1003
-  fields:
-    user:
-    - testuser
-- model: iot_app.userdevice
+  fields: {}
+- model: iot_app.deviceprefs
   pk: 2001
-  fields:
-    user:
-    - testuser2
-- model: iot_app.userdevice
+  fields: {}
+- model: iot_app.deviceprefs
   pk: 2002
-  fields:
-    user:
-    - testuser2
-- model: iot_app.userdevice
+  fields: {}
+- model: iot_app.deviceprefs
   pk: 2003
-  fields:
-    user:
-    - testuser2
+  fields: {}

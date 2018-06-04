@@ -11,16 +11,16 @@ class IndexView(TemplateView):
     template_name = 'iot_app/index.html'
 
 
-class UserDeviceListView(ListView):
-    model = models.UserDevice
+class DeviceListView(ListView):
+    model = models.Device
     ordering = ['-date']
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
 
-class UserDeviceView(DetailView):
-    model = models.UserDevice
+class DeviceDetailView(DetailView):
+    model = models.Device
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)

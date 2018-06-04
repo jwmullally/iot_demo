@@ -10,11 +10,6 @@ from ..iot_app import models
 
 # Create your views here.
 
-class IsOwnerFilterBackend(filters.BaseFilterBackend):
-    def filter_queryset(self, request, queryset, view):
-        return queryset.filter(user=request.user)
-
-
 class DeviceModelViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows DeviceModels to be viewed
@@ -35,32 +30,33 @@ class DeviceViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows Devices to be viewed
     """
-    queryset = models.Device.objects.all()
     serializer_class = serializers.DeviceSerializer
 
     def get_queryset(self):
-        return super().get_queryset().filter(userdevice__user=self.request.user)
+        return models.Device.objects.filter(user=self.request.user)
 
 
-class UserDeviceViewSet(viewsets.ReadOnlyModelViewSet):
+class DevicePrefsViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows UserDevices to be viewed
+    API endpoint that allows DevicePrefs to be viewed
     """
-    queryset = models.UserDevice.objects.all()
-    serializer_class = serializers.UserDeviceSerializer
-    filter_backends = (IsOwnerFilterBackend,)
+    serializer_class = serializers.DevicePrefsSerializer
+
+    def get_queryset(self):
+        return models.DevicePrefs.objects.filter(device__user=self.request.user)
+
 
 
 class QueryView(views.APIView):
     """
-    API endpoint to fetch UserDevice metrics
+    API endpoint to fetch Device metrics
     """
 
     QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m {serial_query} {sensor_query} GROUP BY "serial", "sensor"'
 
-    def __gen_query(self, userdevices, sensors):
+    def __gen_query(self, devices, sensors):
         # Proof of concept, replace with a query builder or token+AST string builder
-        serial_query = 'AND (' + ' OR '.join('"serial"=\'{}\''.format(userdevice.pk) for userdevice in userdevices) + ')'
+        serial_query = 'AND (' + ' OR '.join('"serial"=\'{}\''.format(device.pk) for device in devices) + ')'
         if sensors:
             sensor_query = 'AND (' + ' OR '.join('"sensor"=\'{}\''.format(sensor.tag) for sensor in sensors) + ')'
         else:
@@ -73,12 +69,11 @@ class QueryView(views.APIView):
         ?device: Serial of the device(s) to query. Required
         ?sensor: Sensor(s) to query. If unspecified, all sensors will be returned.
         """
-        userdevice_pks = tuple(request.query_params.getlist('device'))
-        if not userdevice_pks:
+        device_pks = tuple(request.query_params.getlist('device'))
+        if not device_pks:
             return Response({})
-        queryset = models.UserDevice.objects.filter(user=self.request.user)
-        userdevices = queryset.filter(pk__in=userdevice_pks)
-        if not userdevices:
+        devices = models.Device.objects.filter(user=self.request.user, pk__in=device_pks)
+        if not devices:
             raise Http404
         sensor_pks = tuple(request.query_params.getlist('sensor', []))
         if sensor_pks:
@@ -93,6 +88,6 @@ class QueryView(views.APIView):
                 username=settings.INFLUXDB['USER'],
                 password=settings.INFLUXDB['PASSWORD'],
                 database=settings.INFLUXDB['DATABASE'])
-        query = self.__gen_query(userdevices, sensors)
+        query = self.__gen_query(devices, sensors)
         data = client.query(query)
         return Response(data.raw)

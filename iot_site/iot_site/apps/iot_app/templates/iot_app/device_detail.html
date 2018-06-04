@@ -1,0 +1,15 @@
+{% extends 'iot_app/base.html' %}
+
+{% load charts %}
+
+{% block title %}{{ device }}{% endblock %}
+
+{% block content %}
+  {% include "iot_app/card_device.html" with device=device %}
+
+  <ul>
+    <li>{{ device.serial }}</li>
+    <li>{{ device.model.name }}</li>
+    <li>{{ device.date }}</li>
+  </ul>
+{% endblock %}

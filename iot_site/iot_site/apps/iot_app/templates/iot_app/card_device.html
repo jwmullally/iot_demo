@@ -1,0 +1,16 @@
+{% load charts %}
+{% load utils %}
+
+<div class="card mb-3">
+  <h5 class="card-header">
+    <a href={% url 'iot_app:device' device.pk %}>{{ device }}</a> - Location: {{ device.device_prefs.location }}
+    <div class="float-right">
+      <a class="btn btn-primary btn-sm" href={% url 'iot_app:device' device.pk %} role="button">Modify</a>
+    </div>
+  </h5>
+  <div class="card-body">
+    {% with "device="|addstr:device.pk as query_params %}
+      {% chart 'line' device.pk query_params %}
+    {% endwith %}
+  </div>
+</div>

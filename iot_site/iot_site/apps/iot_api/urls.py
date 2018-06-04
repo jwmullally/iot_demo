@@ -7,7 +7,7 @@ router = routers.DefaultRouter()
 router.register('devicemodel', views.DeviceModelViewSet, base_name="devicemodel")
 router.register('sensor', views.SensorViewSet, base_name="sensor")
 router.register('device', views.DeviceViewSet, base_name="device")
-router.register('userdevice', views.UserDeviceViewSet, base_name="userdevice")
+router.register('deviceprefs', views.DevicePrefsViewSet, base_name="deviceprefs")
 
 urlpatterns = [
     path('', include(router.urls)),

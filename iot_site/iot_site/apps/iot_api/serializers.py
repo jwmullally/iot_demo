@@ -23,9 +23,9 @@ class DeviceSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'serial', 'model', 'date')
 
 
-class UserDeviceSerializer(serializers.HyperlinkedModelSerializer):
-    device = serializers.HyperlinkedRelatedField(view_name='device-detail', queryset=models.Device.objects.all())
+class DevicePrefsSerializer(serializers.HyperlinkedModelSerializer):
+    device = serializers.HyperlinkedRelatedField(view_name='device-detail', read_only=True)
 
     class Meta:
-        model = models.UserDevice
-        fields = ('url', 'device', 'date')
+        model = models.DevicePrefs
+        fields = ('url', 'device')
