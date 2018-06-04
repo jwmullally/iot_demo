@@ -3,9 +3,10 @@
 
 <div class="card mb-3">
   <h5 class="card-header">
-    <a href={% url 'iot_app:device' device.pk %}>{{ device }}</a> - Location: {{ device.device_prefs.location }}
+    <a href={% url 'iot_app:device' device.pk %}>{{ device }}</a>
+    {% if device.deviceprefs.location %} - {{ device.deviceprefs.location }}{% endif %}
     <div class="float-right">
-      <a class="btn btn-primary btn-sm" href={% url 'iot_app:device' device.pk %} role="button">Modify</a>
+      <a class="btn btn-primary btn-sm" href={% url 'iot_app:deviceprefs' device.pk %} role="button">Modify</a>
     </div>
   </h5>
   <div class="card-body">

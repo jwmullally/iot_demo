@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from influxdb import InfluxDBClient
-from rest_framework import filters, views, viewsets
+from rest_framework import filters, mixins, views, viewsets
 from rest_framework.response import Response
 
 from . import serializers
@@ -36,9 +36,12 @@ class DeviceViewSet(viewsets.ReadOnlyModelViewSet):
         return models.Device.objects.filter(user=self.request.user)
 
 
-class DevicePrefsViewSet(viewsets.ReadOnlyModelViewSet):
+class DevicePrefsViewSet(mixins.ListModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.UpdateModelMixin,
+                         viewsets.GenericViewSet):
     """
-    API endpoint that allows DevicePrefs to be viewed
+    API endpoint that allows DevicePrefs to be viewed and updated
     """
     serializer_class = serializers.DevicePrefsSerializer
 
