@@ -8,19 +8,22 @@ from ..iot_app import models
 class DeviceModelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.DeviceModel
-        fields = ('url', 'name')
+        fields = '__all__'
 
 
 class SensorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Sensor
-        fields = ('url', 'tag')
+        fields = '__all__'
 
 
 class DeviceSerializer(serializers.HyperlinkedModelSerializer):
+    serial = serializers.ReadOnlyField()
+    model = DeviceModelSerializer(read_only=True)
+
     class Meta:
         model = models.Device
-        fields = ('url', 'serial', 'model', 'date')
+        exclude = ('user',)
 
 
 class DevicePrefsSerializer(serializers.HyperlinkedModelSerializer):
@@ -28,4 +31,4 @@ class DevicePrefsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.DevicePrefs
-        fields = ('url', 'device')
+        fields = '__all__'

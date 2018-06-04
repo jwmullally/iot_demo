@@ -46,10 +46,17 @@ class DevicePrefsViewSet(viewsets.ReadOnlyModelViewSet):
         return models.DevicePrefs.objects.filter(device__user=self.request.user)
 
 
-
 class QueryView(views.APIView):
     """
     API endpoint to fetch Device metrics
+
+    Params::
+        ?device: Serial of the device(s) to query. Required
+        ?sensor: Sensor(s) to query. If unspecified, all sensors will be returned.
+
+    Example::
+        ?device=1001&device=1002
+        ?device=1001&sensor=a
     """
 
     QUERY_FORMAT = 'SELECT "value" FROM "iot_metrics"."autogen"."sensor" WHERE time > now() - 5m {serial_query} {sensor_query} GROUP BY "serial", "sensor"'
@@ -65,10 +72,6 @@ class QueryView(views.APIView):
         return query
 
     def get(self, request, format=None):
-        """
-        ?device: Serial of the device(s) to query. Required
-        ?sensor: Sensor(s) to query. If unspecified, all sensors will be returned.
-        """
         device_pks = tuple(request.query_params.getlist('device'))
         if not device_pks:
             return Response({})
