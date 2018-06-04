@@ -133,6 +133,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda x: '/accounts/profile',
 }
 
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 

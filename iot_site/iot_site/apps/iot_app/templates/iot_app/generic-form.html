@@ -3,6 +3,8 @@
 {% load bootstrap4 %}
 
 {% block content %}
+  <h5 class="text-center">{{ object }}</h5>
+
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
